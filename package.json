@@ -12,19 +12,19 @@
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@material-ui/core": "^4.11.2",
-    "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.13.5",
+    "axios": "^1.4.0",
     "daisyui": "^2.42.1",
     "next": "13.0.5",
     "next-auth": "^4.17.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-table": "^7.8.0"
   },
   "devDependencies": {
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
+    "@types/react-table": "^7.7.14",
     "autoprefixer": "^10.4.13",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",

@@ -2,7 +2,6 @@ import Link from "next/link"
 import LoginCard from "../components/loginCard/loginCard"
 import styles from "../styles/Login.module.css"
 import Input from '../components/loginCard/input/input'
-import Button from "../components/button/button"
 import { login } from "../services/user"
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -45,7 +44,10 @@ export default function Login() {
                     <Input type="email" name="email" placeholder="Seu e-mail" />
                     <Input type="password" name="password" placeholder="Sua senha" />
                     <div>{ message }</div>
-                    <Button>Entrar</Button>
+                    {/* <Button>Entrar</Button> */}
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Entrar
+                    </button>
                     <Link href="/cadastro/usuario">Ainda não possui conta?</Link>
                 </form>
             </LoginCard>

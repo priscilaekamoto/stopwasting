@@ -1,179 +1,145 @@
-import {
-    Button,
-    Typography,
-    createStyles,
-    makeStyles,
-    Theme,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    IconButton,
-    Snackbar,
-    Box,
-  } from '@material-ui/core';
-
 import Link from "next/link";
-import { Delete, Edit } from '@mui/icons-material';
 import Layout from "components/Layout";
-import { useState } from 'react';
-import ConfirmationDialog from 'components/ConfirmationDialog/ConfirmationDialog';
+import axios from "axios";
+import React, { useMemo, useState, useEffect } from "react";
+import Table from "components/Table";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    toolbar: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    table: {
-      marginTop: theme.spacing(3),
-    },
-  })
-);
 
 export default function Alimento() {
-    const classes = useStyles;
+   
+  const [showModal, setShowModal] = useState(false);
 
-    const [deleteOptions, setDeleteOptions] = useState<{
-        show: boolean;
-        itemId?: number;
-        itemDescription?: string;
-      }>({ show: false });
-      
-    const [messageInfo, setMessageInfo] = useState<{
-      show: boolean;
-      message: string;
-    }>({ show: false, message: '' });
+  const columns = useMemo(
+      () => [
+        {
+          Header: "Lista de Alimentos",
+          columns: [
+            {
+              Header: "Nome",
+              accessor: "show.name",
+            },
+            {
+              Header: "Tipo",
+              accessor: "show.type",
+            },
+          ],
+        }
+      ],
+      []
+  );
 
-    const handleDelete = (item: any) => {
-        setDeleteOptions({
-          show: true,
-          itemId: item.id,
-          itemDescription: item.name,
-        });
-      };
+  const [data, setData] = useState([]);
 
-    const handleDeleteCallBack = (value: string) => {
-      const { itemId } = deleteOptions;
-      setDeleteOptions({ show: false, itemId: null, itemDescription: null });
+  const AdicionarAlimento = (e) => {
+    e.preventDefault();
+    setShowModal(false)
+    console.log("entrou na função para cadastrar alimentos")
 
-      if (value === 'ok') {
-        // deleta
-        setMessageInfo({ show: true, message: 'Item excluído com sucesso' });
-      }
-    };
+    const nome_alimento = document.getElementById("grid-nome-alimento").value;
+    const descricao_alimento = document.getElementById("grid-descricao-alimento").value;
+    
+    
+    const novo_alimento = {
+      show:{name:nome_alimento, type:descricao_alimento}
+    }
+    data.push(novo_alimento)
+    setData(data)
+    console.log(data)
+  }
 
-    const handleCloseMessage = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-
-      setMessageInfo({ show: false, message: '' });
-    };
-
-    const rows = [
-        { id: 1, name: 'Luke Skywalker', email: 'luke.skywalker@starwars.com' },
-        { id: 2, name: 'R2-D2', email: 'r2d2@starwars.com' },
-        { id: 3, name: 'Darth Vader', email: 'darth.vader@starwars.com' },
-        { id: 4, name: 'Leia Organa', email: 'leia.organa@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-        { id: 5, name: 'Owen Lars', email: 'owen.lars@starwars.com' },
-      ];
+  useEffect(() => {
+    (async () => {
+      //const result = await axios("https://api.tvmaze.com/search/shows?q=snow");
+      setData(
+        [
+          {
+            show:{name:"leandro shindi ekamoto", type:"tipo teste"}
+          }
+        ]
+      );
+    })();
+  }, []);
 
     return (
         <Layout>
-   
-                   
-<div className={classes.toolbar}>
-        <div>
-          <Typography component="h1" variant="h4">
-            Clientes
-          </Typography>
-        </div>
-        <div>
-          <Link href="/customers/new" passHref>
-            <Button variant="contained" color="primary">
-              Novo cliente
-            </Button>
-          </Link>
-        </div>
-      </div>
-
-      <TableContainer component={Paper} className={classes.table}>
-        <Table aria-label="Clientes">
-          <TableHead>
-            <TableRow>
-              <TableCell>Npme</TableCell>
-              <TableCell>E-mail</TableCell>
-              <TableCell width="140" align="center">
-                Ações
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handleDelete(row)}
+          {showModal ? (
+          <>
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">
+                    Cadastro de Alimento
+                  </h3>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}
                   >
-                    <Delete />
-                  </IconButton>
-                  <Link href={`/customers/edit/${row.id}`} passHref>
-                    <IconButton aria-label="edit">
-                      <Edit />
-                    </IconButton>
-                  </Link>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <ConfirmationDialog
-        id={`delete-${deleteOptions.itemId}`}
-        title="Excluir"
-        confirmButtonText="Excluir"
-        keepMounted
-        open={deleteOptions.show}
-        onClose={handleDeleteCallBack}
-      >
-        Confirma a exclusão do item{' '}
-        <strong>{deleteOptions.itemDescription}</strong>
-      </ConfirmationDialog>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        autoHideDuration={3000}
-        open={messageInfo.show}
-        message={messageInfo.message}
-        key={messageInfo.message}
-        onClose={handleCloseMessage}
-      />
-            
-
-
-
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex-auto">
+                  <form class="w-full max-w-lg m-2 ...">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                            Nome
+                          </label>
+                          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-nome-alimento" type="text" placeholder="Melancia"/>
+                          <p class="text-red-500 text-xs italic">Campo Obrigatório.</p>
+                      </div>
+                      <div class="w-full md:w-1/2 px-3">
+                          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          Descrição
+                          </label>
+                          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-descricao-alimento" type="text" placeholder="Fruta"/>
+                      </div>
+                      <div class="w-full md:w-2/3 px-3 mt-6">
+                          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          Armazenamento
+                          </label>
+                          <select label="Select Version" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                          <option>Armário</option>
+                          <option>Freezer</option>
+                          <option>Geladeira</option>
+                        </select>
+                      </div>
+                    </div>  
+                  </form>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={AdicionarAlimento}
+                  >
+                    Adicionar Alimento
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </>
+          ) : null}
+          
+          <button onClick={() => setShowModal(true)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-3 ..." data-modal-target="popup-modal" data-modal-toggle="popup-modal">
+            Adicionar Alimento
+          </button>
+          <Table columns={columns} data={data} />
         </Layout>
     )
 }
