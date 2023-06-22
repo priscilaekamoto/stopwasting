@@ -16,12 +16,12 @@ export function cadastro(body) {
     return body
 }
 
-export function login(usuario) {
+export function logar(usuario) {
 
     var result = {
         status: 200,
         message: "",
-        token: ""
+        token: "token-teste"
     };
 
     const user = users.find(({ email }) => email === usuario.email)

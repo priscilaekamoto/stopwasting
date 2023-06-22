@@ -2,13 +2,14 @@ import Link from "next/link"
 import LoginCard from "../components/loginCard/loginCard"
 import styles from "../styles/Login.module.css"
 import Input from '../components/loginCard/input/input'
-import { login } from "../services/user"
+import { logar } from "../services/user"
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useAuth } from "components/AuthContext"
 
 export default function Login() {
 
+    const { authToken, login, logout } = useAuth();
     const router = useRouter();
     const [message, setMessage] = useState("");
 
@@ -23,10 +24,13 @@ export default function Login() {
             password: e.target.elements.password.value
         };
 
-        const result = login(user);
+        const result = logar(user);
 
         if(result.status == 200)
         {
+            var token = result;
+            login(token);
+
             router.push('/home');
             setMessage("")
         }
@@ -35,6 +39,10 @@ export default function Login() {
 
         console.log(result);
     }
+
+    useEffect(() => {
+        
+    },[]);
 
     return (
         
