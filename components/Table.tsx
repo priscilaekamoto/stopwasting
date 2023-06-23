@@ -1,7 +1,8 @@
 import { useTable } from "react-table";
+import BotaoEditar from "./BotaoEditar";
 import BotaoRemover from "./BotaoRemover";
 
-export default function Table({ columns, data, onClickRemover }) {
+export default function Table({ columns, data, onClickRemover, onClickEditar }) {
 
     // Table component logic and UI come here
     // Use the useTable Hook to send the columns and data to build the table
@@ -43,8 +44,8 @@ export default function Table({ columns, data, onClickRemover }) {
               <tr key={3} {...row.getRowProps()}>
                 {row.cells.map(cell => {
 
-                  if(cell.column.id === "remover") {
-                    return <td key={1} className="border px-8 py-4"><BotaoRemover onClickRemover={onClickRemover} idItem={cell.row.values.id}/></td>
+                  if(cell.column.id === "editar-remover") {
+                    return <td key={1} className="border px-8 py-4 text-center grid-cols-2"><BotaoEditar className="inline-block" onClickEditar={onClickEditar} idItem={cell.row.values.id}/> <BotaoRemover className="inline-block" onClickRemover={onClickRemover} idItem={cell.row.values.id}/></td>
                   }
 
                   return <td className="border px-8 py-4" key={3} {...cell.getCellProps()}>{cell.render("Cell")}</td>;
