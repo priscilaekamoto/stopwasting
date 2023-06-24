@@ -12,15 +12,16 @@ import { ConverterDataAmericanaParaBrasileira, ConverterDataBrasileiraAmericana 
 // import { parseISO } from 'date-fns/esm';
 
 export default function Alimento() {
-   
+  
+  const { authToken, login, logout } = useAuth();
   const [showModalCadastrar, setShowModalCadastrar] = useState(false);
   const [showModalEditar, setShowModalEditar] = useState(false);
-  const { authToken, login, logout } = useAuth();
   const [gridNomeAlimentoEditar, setGridNomeAlimentoEditar] = useState("");
-  const [gridDescricacaoAlimentoEditar, setGridDescricaoAlimentoEditar] = useState("");
+  const [gridDescricaoAlimentoEditar, setGridDescricaoAlimentoEditar] = useState("");
   const [gridArmazenamentoAlimentoEditar, setGridArmazenamentoAlimentoEditar] = useState("");
   const [gridValidadeAlimentoEditar, setGridValidadeAlimentoEditar] = useState("");
   const [idAlimentoEditar, setIdAlimentoEditar] = useState("");
+  const [data, setData] = useState([]);
 
   console.log("TOKEN:",authToken)
 
@@ -65,51 +66,132 @@ export default function Alimento() {
       []
   );
 
-  const [data, setData] = useState([]);
-
   const EditarAlimento = (e) => {
+
+    const nomeValidacao = document.querySelector('.campoObrigatorioNomeEditar');
+    const descricaoValidacao = document.querySelector('.campoObrigatorioDescricaoEditar');
+    const armazenamentoValidacao = document.querySelector('.campoObrigatorioArmazenamentoEditar');
+    const validadeValidacao = document.querySelector('.campoObrigatorioValidadeEditar');
+
+    var fechaModal = true;
+
+    if(gridNomeAlimentoEditar === "")
+    {
+      nomeValidacao.classList.remove('hidden'); 
+      fechaModal = false;
+      
+    } else
+      nomeValidacao.classList.add('hidden'); 
+  
+    if(gridDescricaoAlimentoEditar === "")
+    {
+      descricaoValidacao.classList.remove('hidden'); 
+      fechaModal = false;
+    } else 
+      descricaoValidacao.classList.add('hidden'); 
+
+    if(gridArmazenamentoAlimentoEditar === "")
+    {
+      armazenamentoValidacao.classList.remove('hidden'); 
+      fechaModal = false;
+    } else
+      armazenamentoValidacao.classList.add('hidden'); 
+
+    if(gridValidadeAlimentoEditar === "")
+    {
+      validadeValidacao.classList.remove('hidden'); 
+      fechaModal = false;
+    } else
+      validadeValidacao.classList.add('hidden'); 
     
     const alimentoEditar = data.filter(item => item.id === idAlimentoEditar);
 
     alimentoEditar.id = idAlimentoEditar;
     alimentoEditar.nome = gridNomeAlimentoEditar;
-    alimentoEditar.descricao = gridDescricacaoAlimentoEditar;
+    alimentoEditar.descricao = gridDescricaoAlimentoEditar;
 
     const objetoFiltrado = listaArmazenamento.find(item => item.id == gridArmazenamentoAlimentoEditar);
     alimentoEditar.armazenamento = objetoFiltrado?.descricao;
-    alimentoEditar.validade = ConverterDataAmericanaParaBrasileira(gridValidadeAlimentoEditar);
+
+    if(gridValidadeAlimentoEditar!=="")
+      alimentoEditar.validade = ConverterDataAmericanaParaBrasileira(gridValidadeAlimentoEditar);
     
     const novaLista = data.filter(item => item.id !== idAlimentoEditar);
     novaLista.push(alimentoEditar);
     setData(novaLista);
-    setShowModalEditar(false);
+    
+    setShowModalEditar(!fechaModal);
   }
 
   const AdicionarAlimento = (e) => {
 
     e.preventDefault();
-    setShowModalCadastrar(false)
-    
+
+    const nomeValidacaoCadastrar = document.querySelector('.campoObrigatorioNomeCadastrar');
+    const descricaoValidacaoCadastrar = document.querySelector('.campoObrigatorioDescricaoCadastrar');
+    const armazenamentoValidacaoCadastrar = document.querySelector('.campoObrigatorioArmazenamentoCadastrar');
+    const validadeValidacaoCadastrar = document.querySelector('.campoObrigatorioValidadeCadastrar');
+
     const nome_alimento = document.getElementById("grid-nome-alimento").value;
     const data_validade_alimento = document.getElementById("grid-data-validade").value;
     const descricao_alimento = document.getElementById("grid-descricao-alimento").value;
     const armazenamento_alimento = document.getElementById("grid-armazenamento-alimento").value;
 
-    var contId = 1;
+    var fechaModal = true;
 
-    if(data.length > 0)
+    if(nome_alimento === "")
     {
-      const ultimoItem = data[data.length - 1];
-      contId = ultimoItem.id+1;
-    }
-    // const dataF = parseISO(data_validade_alimento); 
-    // const dataFormatada = format(dataF, 'dd/MM/yyyy');
-    
-    const novo_alimento = {
-      id:contId, nome: nome_alimento, armazenamento:armazenamento_alimento, validade:ConverterDataAmericanaParaBrasileira(data_validade_alimento), descricao: descricao_alimento
-    };
+      nomeValidacaoCadastrar.classList.remove('hidden'); 
+      fechaModal = false;
+      
+    } else
+      nomeValidacaoCadastrar.classList.add('hidden'); 
   
-    setData((prevData) => [...prevData, novo_alimento]); 
+    if(descricao_alimento === "")
+    {
+      descricaoValidacaoCadastrar.classList.remove('hidden'); 
+      fechaModal = false;
+    } else 
+      descricaoValidacaoCadastrar.classList.add('hidden'); 
+
+    if(armazenamento_alimento === "")
+    {
+      armazenamentoValidacaoCadastrar.classList.remove('hidden'); 
+      fechaModal = false;
+    } else
+      armazenamentoValidacaoCadastrar.classList.add('hidden'); 
+
+     if(data_validade_alimento === "")
+     {
+       validadeValidacaoCadastrar.classList.remove('hidden'); 
+       fechaModal = false;
+     } else
+      validadeValidacaoCadastrar.classList.add('hidden'); 
+
+    setShowModalCadastrar(!fechaModal)
+
+    if(fechaModal)
+    {
+      var contId = 1;
+
+      if(data.length > 0)
+      {
+        const maiorId = data.reduce((maxId, item) => {
+          return item.id > maxId ? item.id : maxId;
+        }, -1);
+        contId = maiorId+1;
+      }
+      
+      let validadeC = "";
+      if(data_validade_alimento!=="")
+        validadeC = ConverterDataAmericanaParaBrasileira(data_validade_alimento);
+      
+      const novo_alimento = {
+        id:contId, nome: nome_alimento, armazenamento:armazenamento_alimento, validade:validadeC, descricao: descricao_alimento
+      };
+
+      setData((prevData) => [...prevData, novo_alimento]); 
+    }
   }
 
   const onClickRemover = (id) => {
@@ -122,8 +204,6 @@ export default function Alimento() {
     setIdAlimentoEditar(id)
     setShowModalEditar(true);
     const alimentoEditar = data.filter(item => item.id === id);
-    console.log(alimentoEditar)
-
     const objetoFiltrado = listaArmazenamento.find(item => item.descricao === alimentoEditar[0].armazenamento);
 
     setGridNomeAlimentoEditar(alimentoEditar[0].nome)
@@ -134,8 +214,7 @@ export default function Alimento() {
 
     setGridValidadeAlimentoEditar(dataAmer)
   };
-  ////////////////////////////////////////////////////////////////////////////
-
+  
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState(data);
 
@@ -182,33 +261,36 @@ export default function Alimento() {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
                           Nome
                         </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-nome-alimento-editar" value={gridNomeAlimentoEditar} onChange={(event) => setGridNomeAlimentoEditar(event.target.value)} type="text" placeholder="Melancia"/>
+                        <input required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-nome-alimento-editar" value={gridNomeAlimentoEditar} onChange={(event) => setGridNomeAlimentoEditar(event.target.value)} type="text" placeholder="Melancia"/>
                         {/* <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-nome-alimento-editar" value={gridNomeAlimentoEditar} onChange={(event) => setGridNomeAlimentoEditar(event.target.value)} type="text" placeholder="Melancia"/> */}
-                        {/* <p className="text-red-500 text-xs italic">Campo Obrigatório.</p> */}
+                        <p className="text-red-500 text-xs hidden italic campoObrigatorioNomeEditar">Campo Obrigatório.</p>
                     </div>
                     <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
                         Descrição
                         </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-descricao-alimento-editar" type="text" placeholder="Fruta" value={gridDescricacaoAlimentoEditar} onChange={(event) => setGridDescricaoAlimentoEditar(event.target.value)}/>
+                        <input required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-descricao-alimento-editar" type="text" placeholder="Fruta" value={gridDescricaoAlimentoEditar} onChange={(event) => setGridDescricaoAlimentoEditar(event.target.value)}/>
+                        <p className="text-red-500 text-xs italic hidden campoObrigatorioDescricaoEditar">Campo Obrigatório.</p>
                     </div>
                     <div className="w-full md:w-2/3 px-2 mt-5">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
                         Armazenamento
                         </label>
                         {/* todo:criar componente */}
-                        <select label="Select Version" value={gridArmazenamentoAlimentoEditar} onChange={(event) => setGridArmazenamentoAlimentoEditar(event.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-armazenamento-alimento-editar">
+                        <select required label="Select Version" value={gridArmazenamentoAlimentoEditar} onChange={(event) => setGridArmazenamentoAlimentoEditar(event.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-armazenamento-alimento-editar">
                           <option value="1">Armário</option>
                           <option value="2">Freezer</option>
                           <option value="3">Geladeira</option>
-                      </select>
+                        </select>
+                        <p className="text-red-500 text-xs italic hidden campoObrigatorioArmazenamentoEditar">Campo Obrigatório.</p>
                     </div>
                     <div className="w-full md:w-2/3 px-2 mt-5">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
                         Data Validade
                         </label>
                         {/* todo:criar componente */}
-                        <input value={gridValidadeAlimentoEditar} onChange={(event) => setGridValidadeAlimentoEditar(event.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-data-validade-editar" type="date" placeholder="Fruta"/>
+                        <input required value={gridValidadeAlimentoEditar} onChange={(event) => setGridValidadeAlimentoEditar(event.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-data-validade-editar" type="date" placeholder="Fruta"/>
+                        <p className="text-red-500 text-xs italic hidden campoObrigatorioValidadeEditar">Campo Obrigatório.</p>
                     </div>
                   </div>  
                 </form>
@@ -265,14 +347,15 @@ export default function Alimento() {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
                           Nome
                         </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-nome-alimento" type="text" placeholder="Melancia"/>
-                        <p className="text-red-500 text-xs italic">Campo Obrigatório.</p>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-nome-alimento" type="text" placeholder="Melancia"/>
+                        <p className="text-red-500 text-xs italic hidden campoObrigatorioNomeCadastrar">Campo Obrigatório.</p>
                     </div>
                     <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
                         Descrição
                         </label>
                         <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-descricao-alimento" type="text" placeholder="Fruta"/>
+                        <p className="text-red-500 text-xs italic hidden campoObrigatorioDescricaoCadastrar">Campo Obrigatório.</p>
                     </div>
                     <div className="w-full md:w-2/3 px-2 mt-5">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
@@ -283,7 +366,8 @@ export default function Alimento() {
                           <option>Armário</option>
                           <option>Freezer</option>
                           <option>Geladeira</option>
-                      </select>
+                        </select>
+                        <p className="text-red-500 text-xs italic hidden campoObrigatorioArmazenamentoCadastrar">Campo Obrigatório.</p>
                     </div>
                     <div className="w-full md:w-2/3 px-2 mt-5">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
@@ -291,6 +375,7 @@ export default function Alimento() {
                         </label>
                         {/* todo:criar componente */}
                         <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-data-validade" type="date" placeholder="Fruta"/>
+                        <p className="text-red-500 text-xs italic hidden campoObrigatorioValidadeCadastrar">Campo Obrigatório.</p>
                     </div>
                   </div>  
                 </form>

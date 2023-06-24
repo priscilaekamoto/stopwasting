@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../components/pagination.css";
 import type { AppProps } from "next/app";
 import { AuthProvider } from "components/AuthContext";
 
