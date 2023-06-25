@@ -1,14 +1,14 @@
 let users = [
     {
-        email:"pry.vasconcelos@hotmail.com",
-        password:"123"
+        email: "pry.vasconcelos@hotmail.com",
+        password: "123"
     }
 ];
 
 export function cadastro(body) {
 
     const user = users.find(({ email }) => email === body.email)
-    
+
     if (user) throw new Error('Usuário já cadastrado')
 
     users.push(body)
@@ -31,11 +31,10 @@ export function logar(usuario) {
         result.message = "Usuário não encontrado"
     } else
 
-    if (user.password !== usuario.password) 
-    {
-        result.status = 400;
-        result.message = "Usuário ou senha incorretos"
-    }
+        if (user.password !== usuario.password) {
+            result.status = 400;
+            result.message = "Usuário ou senha incorretos"
+        }
 
     return result
 

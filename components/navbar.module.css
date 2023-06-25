@@ -1,0 +1,89 @@
+.navbar {
+    display: grid;
+    grid-template-columns: 1fr 0.4fr;
+    width: 100%;
+    border-bottom: 1px solid var(--main-font-ligth-grey);
+    padding: 1rem;
+}
+
+.appTitle {
+    padding: 1rem 0.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 20px;
+}
+
+.menuOpts {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+}
+
+.menuComponent {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.menuLogoDiv {
+    max-width: 250px;
+    position: relative;
+    cursor: pointer;
+}
+
+.menuLogoDiv:hover .borderHover {
+    display: block;
+}
+
+.menuLogoDiv:hover .appTitle {
+    color: var(--main-font-blue-color);
+}
+
+.borderHover {
+    width: 100%;
+    height: 2px;
+    background-color: var(--main-font-blue-color);
+    position: absolute;
+    top: 77px;
+    display: none;
+    transition: 0.3s;
+}
+
+.menuLogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menuItemDiv {
+    max-width: 250px;
+    position: relative;
+    cursor: pointer;
+}
+
+.menuItemDiv:hover .borderHoverItem {
+    display: block;
+}
+
+.link {
+    transition: 0.3s;
+}
+
+.menuItemDiv:hover .link {
+    color: var(--main-font-blue-color);
+}
+
+.borderHoverItem {
+    width: 100%;
+    height: 2px;
+    background-color: var(--main-font-blue-color);
+    position: absolute;
+    top: 62px;
+    display: none;
+    transition: 0.3s;
+}

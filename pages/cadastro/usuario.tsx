@@ -3,28 +3,52 @@ import LoginCard from "../../components/loginCard/loginCard"
 import styles from "../../styles/Login.module.css"
 import Input from "../../components/loginCard/input/input"
 import { useRouter } from 'next/router';
+import LoginImage from "../../components/loginCard/loginImage";
+import React, { useState, useEffect } from 'react';
+import { fetchData } from "../../services/fetch";
 
 export default function CadastroUsuario() {
 
     const router = useRouter();
+    const [message, setMessage] = useState([]);
 
-    const handleClick = (e) => {
+    const handleClick = async (e) => {
         e.preventDefault();
-        router.push('/');
+
+        const user = {
+            Email: e.target.elements.email.value,
+            Senha: e.target.elements.password.value,
+            Nome: e.target.elements.nome.value
+        };
+
+        const result = await fetchData("https://localhost:5001/register", "POST", user);
+
+        if (result.success) {
+            localStorage.setItem("token", result.data);
+        }
+        else {
+            setMessage(result.message);
+        }
     }
 
-    return(
+    return (
         <div className={styles.background}>
-           <LoginCard title="Crie sua conta">
+            <LoginCard>
                 <form className={styles.form} onSubmit={handleClick}>
-                    <Input type="text" placeholder="Seu nome" />
-                    <Input type="email" placeholder="Seu e-mail" />
-                    <Input type="password" placeholder="Sua senha" />
-                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Cadastrar
-                    </button>                
+                    <h2 className={styles.titleCard}>Bem-vindo!</h2>
+                    <span className={styles.subtitleCard}>Crie sua conta e obtenha as vantagens do consumo consciente.</span>
+                    <Input type="text" name="nome" label="Nome:" />
+                    <Input type="email" name="email" label="E-mail:" />
+                    <Input type="password" name="password" label="Senha:" />
+                    <div>
+                        {message.map((m, i) => <div className={styles.msgError} key={i}>{m}</div>)}
+                    </div>
+                    <div className={styles.buttonRow}>
+                        <button type="submit" className={styles.buttonPrimary}>Cadastrar</button>
+                    </div>
                 </form>
-           </LoginCard>
+            </LoginCard>
+            <LoginImage src="/images/register-imagem.jpg" />
         </div>
     )
 } 

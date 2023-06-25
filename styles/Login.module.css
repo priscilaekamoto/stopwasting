@@ -65,11 +65,16 @@
 
 .downBarLogin>span {
     margin-top: -3px;
-    color: #adb5bd;
+    color: var(--main-font-ligth-grey);
 }
 
 .divbar {
     height: 1px;
-    background-color: #adb5bd;
+    background-color: var(--main-font-ligth-grey);
     width: 45%;
+}
+
+.msgError {
+    padding: 0 8px;
+    color: var(--main-font-red);
 }

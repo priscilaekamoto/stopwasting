@@ -3,45 +3,38 @@ import LoginCard from "../components/loginCard/loginCard"
 import LoginImage from "../components/loginCard/loginImage";
 import styles from "../styles/Login.module.css"
 import Input from '../components/loginCard/input/input'
-import { logar } from "../services/user"
+import { fetchData, CheckLogin } from "../services/fetch"
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import { useAuth } from "components/AuthContext"
+import { useAuth } from "components/AuthContext";
+import { redirect } from 'next/navigation'
 
 export default function Login() {
 
-    const { authToken, login, logout } = useAuth();
     const router = useRouter();
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState([]);
 
-    const handleClick = (e) => {
+    const handleClick = async (e) => {
         e.preventDefault();
-
-        console.log(e.target.elements.email.value) // from elements property
-        console.log(e.target.password.value)
-
+        console.log(e);
         const user = {
-            email: e.target.elements.email.value,
-            password: e.target.elements.password.value
+            Email: e.target.elements.email.value,
+            Senha: e.target.elements.password.value
         };
 
-        const result = logar(user);
+        const result = await fetchData("https://localhost:5001/login", "POST", user);
 
-        if (result.status == 200) {
-            var token = result;
-            login(token);
-
-            router.push('/home');
-            setMessage("")
+        if (result.success) {
+            localStorage.setItem("token", result.data);
+            window.open("/home", "_top");
         }
-        else
-            setMessage(result.message)
-
-        console.log(result);
+        else {
+            setMessage(result.message);
+        }
     }
 
     useEffect(() => {
-
+        //CheckLogin();
     }, []);
 
     return (
@@ -49,11 +42,13 @@ export default function Login() {
         <div className={styles.background} >
             <LoginCard>
                 <form className={styles.form} onSubmit={handleClick}>
-                    <h2 className={styles.titleCard}>Bem-vindo!</h2>
+                    <h2 className={styles.titleCard}>Bem-vindo novamente!</h2>
                     <span className={styles.subtitleCard}>Entre em sua conta.</span>
-                    <Input type="email" name="email" label="E-mail:" />
+                    <Input type="text" name="email" label="E-mail:" />
                     <Input type="password" name="password" label="Senha:" />
-                    <div>{message}</div>
+                    <div>
+                        {message.map((m, i) => <div className={styles.msgError} key={i}>{m}</div>)}
+                    </div>
                     {/* <Button>Entrar</Button> */}
                     <div className={styles.buttonRow}>
                         <button type="submit" className={styles.buttonPrimary}>Entrar</button>
@@ -68,8 +63,7 @@ export default function Login() {
                     </div>
                 </form>
             </LoginCard>
-            <LoginImage>
-            </LoginImage>
+            <LoginImage src="/images/login-imagem.jpg" />
         </div>
 
     )
