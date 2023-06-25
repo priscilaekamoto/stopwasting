@@ -1,7 +1,8 @@
-import styles from './input.module.css'
+import styles from './input.module.css';
+import InputGroup from './inputGroup';
 
-export default function Input(props) {
+export default function Input({ type, label, name }) {
     return (
-        <input className={styles.input} {...props} />
+        <InputGroup label={label} type={type} name={name} />
     )
 }

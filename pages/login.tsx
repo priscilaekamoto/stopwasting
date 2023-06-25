@@ -1,5 +1,6 @@
 import Link from "next/link"
 import LoginCard from "../components/loginCard/loginCard"
+import LoginImage from "../components/loginCard/loginImage";
 import styles from "../styles/Login.module.css"
 import Input from '../components/loginCard/input/input'
 import { logar } from "../services/user"
@@ -26,8 +27,7 @@ export default function Login() {
 
         const result = logar(user);
 
-        if(result.status == 200)
-        {
+        if (result.status == 200) {
             var token = result;
             login(token);
 
@@ -41,25 +41,36 @@ export default function Login() {
     }
 
     useEffect(() => {
-        
-    },[]);
+
+    }, []);
 
     return (
-        
+
         <div className={styles.background} >
-            <LoginCard title="Entre em sua conta">
+            <LoginCard>
                 <form className={styles.form} onSubmit={handleClick}>
-                    <Input type="email" name="email" placeholder="Seu e-mail" />
-                    <Input type="password" name="password" placeholder="Sua senha" />
-                    <div>{ message }</div>
+                    <h2 className={styles.titleCard}>Bem-vindo!</h2>
+                    <span className={styles.subtitleCard}>Entre em sua conta.</span>
+                    <Input type="email" name="email" label="E-mail:" />
+                    <Input type="password" name="password" label="Senha:" />
+                    <div>{message}</div>
                     {/* <Button>Entrar</Button> */}
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Entrar
-                    </button>
-                    <Link href="/cadastro/usuario">Ainda não possui conta?</Link>
+                    <div className={styles.buttonRow}>
+                        <button type="submit" className={styles.buttonPrimary}>Entrar</button>
+                    </div>
+                    <div className={styles.downBarLogin}>
+                        <div className={styles.divbar}></div>
+                        <span>ou</span>
+                        <div className={styles.divbar}></div>
+                    </div>
+                    <div className={styles.textCentered}>
+                        <span>Não possui conta?</span> <Link className={styles.link} href="/cadastro/usuario">Cadastre-se</Link>
+                    </div>
                 </form>
             </LoginCard>
+            <LoginImage>
+            </LoginImage>
         </div>
-        
+
     )
 }

@@ -1,13 +1,75 @@
 .background {
-    background-color: gray;
+    background-color: var(--main-bg-light-color);
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-width: 100vw;
+    display: grid;
+    grid-template-columns: 1.3fr 2fr;
 }
 
-.form{
+.form {
+    height: 60vh;
+    width: 25vw;
+}
+
+.titleCard {
+    font-size: 3rem;
+    font-weight: 300;
+    padding: 8px;
+    color: var(--main-font-blue-color);
+}
+
+.subtitleCard {
+    margin-top: 1rem;
+    padding: 8px;
+    color: var(--main-font-grey-color);
+}
+
+.buttonRow {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    padding: 8px;
+    margin-top: 1rem;
+}
+
+.buttonPrimary {
+    padding: 8px;
+    font-size: 1rem;
+    background-color: var(--main-bg-blue-color);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.buttonPrimary:hover {
+    background-color: var(--main-button-primary-hover);
+}
+
+.textCentered {
+    text-align: center;
+    margin-top: 0.75rem;
+}
+
+.link {
+    color: var(--main-button-primary-hover);
+}
+
+.downBarLogin {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 8px;
+    margin-top: 3rem;
+}
+
+.downBarLogin>span {
+    margin-top: -3px;
+    color: #adb5bd;
+}
+
+.divbar {
+    height: 1px;
+    background-color: #adb5bd;
+    width: 45%;
 }

@@ -1,6 +1,27 @@
 .input {
-    padding: 15px 30px;
-    border: 0;
-    background-color:rgb(197, 193, 193) ;
-    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    border: 1px solid var(--main-bg-blue-color);
+}
+
+.inputgroup {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+}
+
+.inputgroup>label {
+    padding: 8px 0;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.inputgroup>input {
+    padding: 8px 16px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    border: 1px solid #ABC4FF;
 }

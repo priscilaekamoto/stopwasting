@@ -1,0 +1,13 @@
+.buttonPrimary {
+    padding: 8px;
+    font-size: 1rem;
+    background-color: var(--main-bg-blue-color);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.buttonPrimary:hover {
+    background-color: var(--main-button-primary-hover);
+}
