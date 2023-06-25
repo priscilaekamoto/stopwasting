@@ -7,17 +7,19 @@ import { fetchData, CheckLogin } from "../services/fetch"
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "components/AuthContext";
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
+import { logar } from "../services/user"
 
 export default function Login() {
 
+    const { authToken, login, logout } = useAuth();
     const router = useRouter();
     const [message, setMessage] = useState([]);
 
     const handleClick = async (e) => {
         e.preventDefault();
         console.log(e);
-        const user = {
+        /*const user = {
             Email: e.target.elements.email.value,
             Senha: e.target.elements.password.value
         };
@@ -30,7 +32,24 @@ export default function Login() {
         }
         else {
             setMessage(result.message);
+        }*/
+
+        const user = {
+            email: e.target.elements.email.value,
+            password: e.target.elements.password.value
+        };
+
+        const result = logar(user);
+
+        if (result.status == 200) {
+            var token = result;
+            login(token);
+
+            router.push('/home');
+            setMessage([""])
         }
+        else
+            setMessage([result.message])
     }
 
     useEffect(() => {
