@@ -36,7 +36,7 @@ const Navbar = () => {
           <div className={styles.menuItemDiv}>
             <div className={styles.menuItem}>
               <NavIcon src="/images/icons/alert-icon.png" />
-              <Link className={styles.link} href="/alertas">Alertas</Link>
+              <Link className={styles.link} href="/Alerta">Alertas</Link>
             </div>
             <div className={styles.borderHoverItem}></div>
           </div>

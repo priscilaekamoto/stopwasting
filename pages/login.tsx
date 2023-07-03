@@ -19,7 +19,7 @@ export default function Login() {
     const handleClick = async (e) => {
         e.preventDefault();
         console.log(e);
-        /*const user = {
+        const user = {
             Email: e.target.elements.email.value,
             Senha: e.target.elements.password.value
         };
@@ -32,9 +32,9 @@ export default function Login() {
         }
         else {
             setMessage(result.message);
-        }*/
+        }
 
-        const user = {
+        /*const user = {
             email: e.target.elements.email.value,
             password: e.target.elements.password.value
         };
@@ -49,11 +49,11 @@ export default function Login() {
             setMessage([""])
         }
         else
-            setMessage([result.message])
+            setMessage([result.message])*/
     }
 
     useEffect(() => {
-        //CheckLogin();
+        CheckLogin();
     }, []);
 
     return (

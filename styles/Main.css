@@ -2,6 +2,7 @@
 
 :root {
     --main-bg-light-color: #EDF2FB;
+    --main-bg-second-light-color: #eff6e0;
     --main-bg-blue-color: #ABC4FF;
     --main-font-blue-color: #477eff;
     --main-font-grey-color: #495057;
@@ -10,4 +11,12 @@
     --main-font-red: #e63946;
 
     font-family: 'Poppins', sans-serif;
+}
+
+.border-light {
+    border-color: var(--main-bg-light-color);
+}
+
+.float-right {
+    float: right;
 }

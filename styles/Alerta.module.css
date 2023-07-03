@@ -1,0 +1,117 @@
+.main {
+    height: 90vh;
+    width: 100vw;
+    background-color: var(--main-bg-second-light-color);
+    gap: 16px;
+    padding: 16px;
+}
+
+.mainCards {
+    background-color: #b3c5d7;
+    height: 100%;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.cardHeader {
+    font-size: 3rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    color: var(--main-font-ligth-grey);
+    line-height: 3.5rem;
+    text-align: justify;
+    padding: 8px;
+    height: 100%;
+}
+
+.cardHeader>span {
+    color: var(--main-font-blue-color);
+}
+
+.cardTitle {
+    font-size: 2rem;
+}
+
+.titleDiv {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+.listDiv {
+    height: 85%;
+    padding: 8px 20px;
+}
+
+.listTable {
+    border: 1px solid var(--main-bg-light-color);
+    height: 100%;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.listHeader {
+    font-weight: 600;
+    margin-bottom: 4px;
+    padding: 0 8px;
+}
+
+.listRow {
+    font-weight: 400;
+    padding: 0 8px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.listRow:hover {
+    background-color: var(--main-bg-light-color);
+}
+
+
+.listRow>div {
+    border-bottom: 1px solid var(--main-bg-light-color);
+    padding: 8px 4px;
+}
+
+.listRow>div>.listData:last-child {
+    text-align: right;
+}
+
+.listHeader>.listData:last-child {
+    text-align: right;
+}
+
+.listData {
+    width: 25%;
+    display: inline-block;
+    padding-left: 4px;
+}
+
+.dataIconDiv {
+    display: inline-block;
+    width: 25%;
+}
+
+.dataIconDiv>div {
+    display: flex;
+    align-items: center;
+}
+
+.dataIconDiv:last-child>div {
+    float: right;
+}
+
+.dataIconDiv>div>img {
+    height: 30px;
+    width: 30px;
+}
+
+.dataIconDiv>div>div {
+    cursor: pointer;
+    margin-left: 12px;
+}
+
+.dataIconDiv>div>div>img {
+    height: 30px;
+    width: 30px;
+}

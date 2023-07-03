@@ -9,11 +9,11 @@ export default function Table({ columns, data, onClickRemover, onClickEditar }) 
   const [currentPage, setCurrentPage] = useState(0);
 
   const {
-    getTableProps, 
-    getTableBodyProps, 
-    headerGroups, 
-    rows, 
-    prepareRow 
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow
   } = useTable({
     columns,
     data
@@ -23,15 +23,15 @@ export default function Table({ columns, data, onClickRemover, onClickEditar }) 
     setCurrentPage(selected);
   };
 
-  const itemsPerPage = 7; 
-  const pageCount = Math.ceil(data.length / itemsPerPage); 
+  const itemsPerPage = 7;
+  const pageCount = Math.ceil(data.length / itemsPerPage);
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const slicedData = rows.slice(startIndex, endIndex);
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg m-2 ...">
+    <div className="border-light relative overflow-x-auto shadow-md sm:rounded-lg m-2 ...">
       <table {...getTableProps()} className="w-full text-sm text-left text-gray-500 dark:text-black">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-200 dark:text-black">
           {headerGroups.map(headerGroup => (
@@ -49,8 +49,8 @@ export default function Table({ columns, data, onClickRemover, onClickEditar }) 
               <tr key={3} {...row.getRowProps()}>
                 {row.cells.map(cell => {
 
-                  if(cell.column.id === "editar-remover") {
-                    return <td key={1} className="border px-8 py-4 text-center grid-cols-2"><BotaoEditar onClickEditar={onClickEditar} idItem={cell.row.values.id}/> <BotaoRemover onClickRemover={onClickRemover} idItem={cell.row.values.id}/></td>
+                  if (cell.column.id === "editar-remover") {
+                    return <td key={1} className="border px-8 py-4 text-center grid-cols-2"><BotaoEditar onClickEditar={onClickEditar} idItem={cell.row.values.id} /> <BotaoRemover onClickRemover={onClickRemover} idItem={cell.row.values.id} /></td>
                   }
 
                   return <td className="border px-8 py-4" key={3} {...cell.getCellProps()}>{cell.render("Cell")}</td>;
@@ -77,4 +77,4 @@ export default function Table({ columns, data, onClickRemover, onClickEditar }) 
       </nav>
     </div>
   );
- }
+}
